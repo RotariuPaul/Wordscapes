@@ -21,5 +21,29 @@ namespace Wordscapes.Logic
         {
             return words.Where(word => word.Length == length).ToList();
         }
+        public List<string> GetWordsThatCanBeFormedFromLetters(List<char> letters)
+        {
+            string availableLetters = new string(letters.ToArray()).ToUpper();
+
+            return words
+                .Where(word => CanFormWord(word, availableLetters))
+                .ToList();
+        }
+        private bool CanFormWord(string word, string availableLetters)
+        {
+            List<char> lettersCopy = availableLetters.ToList();
+
+            foreach (char letter in word)
+            {
+                if (!lettersCopy.Contains(letter))
+                {
+                    return false;
+                }
+
+                lettersCopy.Remove(letter);
+            }
+
+            return true;
+        }
     }
 }

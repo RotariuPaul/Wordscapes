@@ -35,6 +35,11 @@ namespace Wordscapes.Controls
                     Rectangle rect = new Rectangle(x, y, cellSize, cellSize);
                     g.FillRectangle(Brushes.White, rect);
                     g.DrawRectangle(Pens.Black, rect);
+                    
+                    if(cell.IsRevealed)
+                    {
+                        g.DrawString(cell.Letter.ToString(), Font, Brushes.Black, rect);
+                    }
                 }
             }
         }

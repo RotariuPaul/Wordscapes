@@ -40,5 +40,20 @@ namespace Wordscapes.Models
                 Cells[row, column] = new GridCell(gridWord.Word[i]);
             }
         }
+        public void RevealWord(GridWord gridWord)
+        {
+            for(int i=0;i<gridWord.Word.Length;i++)
+            {
+                int row = gridWord.Row;
+                int column = gridWord.Column;
+                if (gridWord.IsHorizontal)
+                    column += i;
+                else
+                    row += i;
+                GridCell? cell = Cells[row, column];
+                if (cell != null)
+                    cell.Reveal();
+            }
+        }
     }
 }

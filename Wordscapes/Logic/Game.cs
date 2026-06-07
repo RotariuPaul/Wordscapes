@@ -24,15 +24,24 @@ namespace Wordscapes.Logic
         public bool TrySubmitWord(string word)
         {
             word = word.Trim().ToUpper();
+
             if (!CurrentLevel.ContainsWord(word))
                 return false;
+
             if (FoundWords.Contains(word))
                 return false;
+
             FoundWords.Add(word);
+
+            GridWord? gridWord = CurrentLevel.GridWords.FirstOrDefault(gridWord => gridWord.Word == word);
+            if (gridWord != null)
+                CurrentLevel.Grid.RevealWord(gridWord);
+
             int points = word.Length * 10;
             CurrentLevelScore += points;
             Player.AddScore(points);
             return true;
+            
         }
         public bool LevelCompleted()
         {
