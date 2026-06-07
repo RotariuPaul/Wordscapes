@@ -13,6 +13,7 @@ namespace Wordscapes.Models
         public List<string> Words { get; private set; }
         public int TimeLimitSeconds { get; private set; }
         public List<GridWord> GridWords { get; private set; }
+        public PuzzleGrid Grid { get; private set; }
         public Level(int levelNumber, List<char> letters, List<string> words, List<GridWord> gridWords, int timeLimitSeconds)
         {
             LevelNumber = levelNumber;
@@ -20,6 +21,7 @@ namespace Wordscapes.Models
             Words = words;
             TimeLimitSeconds = timeLimitSeconds;
             GridWords = gridWords;
+            Grid = new PuzzleGrid(gridWords);
         }
         public bool ContainsWord(string word)
         {
