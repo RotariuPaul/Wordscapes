@@ -14,7 +14,7 @@ namespace Wordscapes.Controls
         public   PuzzleGrid? Grid { get; set; }
         protected override void OnPaint(PaintEventArgs e)
         {
-            base.OnPaint(e);
+            
 
             if (Grid == null)
             {
@@ -81,6 +81,11 @@ namespace Wordscapes.Controls
                 }
             }
         
+        }
+        public PuzzleGridControl()
+        {
+            SetStyle(ControlStyles.SupportsTransparentBackColor, true);
+            BackColor = Color.Transparent;
         }
     }
 }

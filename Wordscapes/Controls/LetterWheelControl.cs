@@ -16,6 +16,8 @@ namespace Wordscapes.Controls
         public LetterWheelControl()
         {
             DoubleBuffered = true;
+            SetStyle(ControlStyles.SupportsTransparentBackColor, true);
+            BackColor = Color.Transparent;
         }
         public void SetLetters(List<char> letters)
         {
@@ -27,7 +29,7 @@ namespace Wordscapes.Controls
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            base.OnPaint(e);
+          
 
             Graphics g = e.Graphics;
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
@@ -43,8 +45,11 @@ namespace Wordscapes.Controls
                 radius * 2
             );
 
-            g.FillEllipse(Brushes.LightGray, circleRect);
-            g.DrawEllipse(Pens.Gray, circleRect);
+            using SolidBrush wheelBrush = new SolidBrush(Color.FromArgb(140, 255, 255, 255));
+            using Pen wheelPen = new Pen(Color.FromArgb(180, 255, 255, 255), 2);
+
+            g.FillEllipse(wheelBrush, circleRect);
+            g.DrawEllipse(wheelPen, circleRect);
 
             if (Letters.Count == 0)
             {
@@ -78,7 +83,7 @@ namespace Wordscapes.Controls
                 Brush fillBrush = selectedIndexes.Contains(i) ? Brushes.LightBlue : Brushes.White;
 
                 g.FillEllipse(fillBrush, letterRect);
-                g.DrawEllipse(Pens.Black, letterRect);
+               
 
                 using Font font = new Font(Font.FontFamily, 18, FontStyle.Bold);
                 StringFormat format = new StringFormat

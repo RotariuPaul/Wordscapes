@@ -3,6 +3,7 @@ using Wordscapes.Logic;
 using Wordscapes.Models;
 using Wordscapes.GameModes;
 using System.Linq;
+using System.Drawing.Drawing2D;
 
 namespace Wordscapes
 {
@@ -21,9 +22,12 @@ namespace Wordscapes
         private bool isEndlessMode = false;
         private EndlessMode? endlessMode;
         private int endlessScore = 0;
+
+
         public Form1()
         {
             InitializeComponent();
+            CenterMenuControls();
             ClientSize = new Size(550, 810);
             loadedSave = saveManager.Load();
             if (loadedSave != null)
@@ -33,9 +37,12 @@ namespace Wordscapes
             UpdateMenuInfo();
             messageLabel.AutoSize = false;
             messageLabel.TextAlign = ContentAlignment.MiddleCenter;
-            messageLabel.Location = new Point(0, 55);
-            messageLabel.Size = new Size(ClientSize.Width, 25);
-            
+            messageLabel.Location = new Point(0, 100);
+            messageLabel.Size = new Size(ClientSize.Width, 30);
+
+            AddButtonHoverEffect(backButton);
+            AddButtonHoverEffect(shuffleButton);
+            AddButtonHoverEffect(hintButton);
         }
         private void UpdateMenuInfo()
         {
@@ -263,7 +270,7 @@ namespace Wordscapes
             saveManager.Reset();
 
             Player player = new Player(playerName);
-            saveManager.Save(player, 1,0);
+            saveManager.Save(player, 1, 0);
 
             loadedSave = saveManager.Load();
             UpdateMenuInfo();
@@ -283,7 +290,7 @@ namespace Wordscapes
             levelTimer.Stop();
             if (!isEndlessMode)
             {
-                saveManager.Save(game.Player, currentLevelNumber,endlessScore);
+                saveManager.Save(game.Player, currentLevelNumber, endlessScore);
                 loadedSave = saveManager.Load();
             }
             else
@@ -392,7 +399,7 @@ namespace Wordscapes
             Player player = new Player(newName);
             player.AddScore(score);
 
-            saveManager.Save(player, level,endlessScore);
+            saveManager.Save(player, level, endlessScore);
             loadedSave = saveManager.Load();
 
             UpdateMenuInfo();
@@ -423,37 +430,22 @@ namespace Wordscapes
                 endlessScore = game.Player.Score;
                 SaveEndlessScore();
                 LoadNextEndlessLevel();
+                return;
             }
-            else
-            {
-                MessageBox.Show(
-                    "Scor cuvinte: " + wordScore +
-                    "\nBonus timp: " + timeBonus +
-                    "\nScor nivel: " + finalLevelScore,
-                    "Nivel complet!"
-                );
 
-                currentLevelNumber++;
+            levelCompleteTitleLabel.Text = "Nivel complet!";
+            levelCompleteScoreLabel.Text =
+                "Scor cuvinte: " + wordScore +
+                "\nBonus timp: " + timeBonus +
+                "\nScor nivel: " + finalLevelScore;
 
-                int levelToSave = currentLevelNumber;
+            levelCompletePanel.Location = new Point(
+                (gamePanel.Width - levelCompletePanel.Width) / 2,
+                (gamePanel.Height - levelCompletePanel.Height) / 2
+            );
 
-                if (levelToSave > levelManager.LevelCount)
-                {
-                    levelToSave = levelManager.LevelCount;
-                }
-
-                saveManager.Save(game.Player, levelToSave, endlessScore);
-
-                if (currentLevelNumber <= levelManager.LevelCount)
-                {
-                    LoadLevel(currentLevelNumber);
-                }
-                else
-                {
-                    levelTimer.Stop();
-                    messageLabel.Text = "Ai terminat toate nivelurile";
-                }
-            }
+            levelCompletePanel.Visible = true;
+            levelCompletePanel.BringToFront();
         }
         private void SaveEndlessScore()
         {
@@ -486,6 +478,75 @@ namespace Wordscapes
                 scoreLabel.Text = "Scor nivel: " + game.CurrentLevelScore;
             }
         }
+        private void CenterMenuControls()
+        {
+            titleLabel.Width = menuPanel.Width;
+            titleLabel.Location = new Point(0, 150);
 
+            campaignButton.Size = new Size(200, 50);
+            campaignButton.Location = new Point((menuPanel.Width - campaignButton.Width) / 2, 280);
+
+            endlessButton.Size = new Size(200, 50);
+            endlessButton.Location = new Point((menuPanel.Width - endlessButton.Width) / 2, 350);
+            playerInfoPanel.Location = new Point(
+    (menuPanel.Width - playerInfoPanel.Width) / 2,
+    endlessButton.Bottom + 35
+);
+        }
+
+        private void Form1_Load(object? sender, EventArgs e)
+        {
+            CenterMenuControls();
+
+        }
+        private void AddButtonHoverEffect(Button button)
+        {
+            Size normalSize = button.Size;
+            Point normalLocation = button.Location;
+
+            button.MouseEnter += (sender, e) =>
+            {
+                button.Size = new Size(normalSize.Width + 8, normalSize.Height + 8);
+                button.Location = new Point(normalLocation.X - 4, normalLocation.Y - 4);
+            };
+
+            button.MouseLeave += (sender, e) =>
+            {
+                button.Size = normalSize;
+                button.Location = normalLocation;
+            };
+        }
+
+        private void levelCompleteNextButton_Click(object sender, EventArgs e)
+        {
+            levelCompletePanel.Visible = false;
+
+            if (isEndlessMode)
+            {
+                LoadNextEndlessLevel();
+                return;
+            }
+
+            currentLevelNumber++;
+
+            int levelToSave = currentLevelNumber;
+
+            if (levelToSave > levelManager.LevelCount)
+            {
+                levelToSave = levelManager.LevelCount;
+            }
+
+            saveManager.Save(game.Player, levelToSave, endlessScore);
+
+            if (currentLevelNumber <= levelManager.LevelCount)
+            {
+                LoadLevel(currentLevelNumber);
+            }
+            else
+            {
+                levelTimer.Stop();
+                messageLabel.Text = "Ai terminat toate nivelurile";
+            }
+        }
     }
 }
