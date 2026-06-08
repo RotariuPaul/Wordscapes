@@ -9,14 +9,23 @@ namespace Wordscapes.Logic
 {
     public class HintManager
     {
-        public bool RevealRandomLetter(Level level,List<string> foundWords)
+        public bool RevealRandomLetter(Level level, List<string> foundWords)
         {
-            List<GridWord> hiddenWords = level.GridWords.Where(GridWord => !foundWords.Contains(GridWord.Word)).ToList();
-            if (hiddenWords.Count == 0)
-                return false;
-            GridWord word = hiddenWords[0];
-            level.Grid.RevealWord(word);
-            return true;
+            List<GridWord> hiddenWords = level.GridWords
+                .Where(gridWord => !foundWords.Contains(gridWord.Word))
+                .ToList();
+
+            foreach (GridWord word in hiddenWords)
+            {
+                bool revealed = level.Grid.RevealOneLetter(word);
+
+                if (revealed)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

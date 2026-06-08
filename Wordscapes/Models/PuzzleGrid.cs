@@ -55,5 +55,58 @@ namespace Wordscapes.Models
                     cell.Reveal();
             }
         }
+        public bool RevealOneLetter(GridWord gridWord)
+        {
+            for (int i = 0; i < gridWord.Word.Length; i++)
+            {
+                int row = gridWord.Row;
+                int column = gridWord.Column;
+
+                if (gridWord.IsHorizontal)
+                {
+                    column += i;
+                }
+                else
+                {
+                    row += i;
+                }
+
+                GridCell? cell = Cells[row, column];
+
+                if (cell != null && !cell.IsRevealed)
+                {
+                    cell.Reveal();
+                    return true;
+                }
+            }
+
+            return false;
+        }
+        public bool IsWordRevealed(GridWord gridWord)
+        {
+            for (int i = 0; i < gridWord.Word.Length; i++)
+            {
+                int row = gridWord.Row;
+                int column = gridWord.Column;
+
+                if (gridWord.IsHorizontal)
+                {
+                    column += i;
+                }
+                else
+                {
+                    row += i;
+                }
+
+                GridCell? cell = Cells[row, column];
+
+                if (cell == null || !cell.IsRevealed)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
     }
 }

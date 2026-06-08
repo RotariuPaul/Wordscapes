@@ -11,5 +11,7 @@ namespace Wordscapes.Models
         public string PlayerName { get; set; } = "";
         public int Score { get; set; }
         public int CurrentLevelNumber { get; set; }
+
+        public int EndlessScore { get; set; }
     }
 }

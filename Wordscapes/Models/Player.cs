@@ -19,8 +19,11 @@ namespace Wordscapes.Models
         }
         public void AddScore(int points)
         {
-            if(points>0)
                 Score += points;
+            if (Score < 0)
+            {
+                Score = 0;
+            }
         }
         public void AdvanceLevel()
         {
@@ -30,6 +33,21 @@ namespace Wordscapes.Models
         {
             Score = 0;
         }
-       
+        public void RemoveScore(int points)
+        {
+            Score -= points;
+
+            if (Score < 0)
+            {
+                Score = 0;
+            }
+        }
+        public void ChangeName(string newName)
+        {
+            if (!string.IsNullOrWhiteSpace(newName))
+            {
+                Name = newName;
+            }
+        }
     }
 }

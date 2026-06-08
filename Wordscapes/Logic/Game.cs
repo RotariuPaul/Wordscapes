@@ -39,13 +39,26 @@ namespace Wordscapes.Logic
 
             int points = word.Length * 10;
             CurrentLevelScore += points;
-            Player.AddScore(points);
+          
             return true;
             
         }
         public bool LevelCompleted()
         {
             return FoundWords.Count == CurrentLevel.Words.Count;
+        }
+        public void AddLevelScoreToPlayer()
+        {
+            Player.AddScore(CurrentLevelScore);
+            CurrentLevelScore = 0;
+        }
+        public void RemoveFromLevelScore(int points)
+        {
+            CurrentLevelScore -= points;
+        }
+        public void AddToLevelScore(int points)
+        {
+            CurrentLevelScore += points;
         }
     }
 

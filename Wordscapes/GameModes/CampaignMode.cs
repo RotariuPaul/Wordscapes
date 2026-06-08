@@ -26,7 +26,7 @@ namespace Wordscapes.GameModes
 
         public override bool IsFinished()
         {
-            return currentLevelNumber > 2;
+            return currentLevelNumber > levelManager.LevelCount;
         }
     }
 }
