@@ -28,6 +28,7 @@ namespace Wordscapes
         {
             InitializeComponent();
             CenterMenuControls();
+            StartPosition = FormStartPosition.CenterScreen;
             ClientSize = new Size(550, 810);
             loadedSave = saveManager.Load();
             if (loadedSave != null)
@@ -37,8 +38,12 @@ namespace Wordscapes
             UpdateMenuInfo();
             messageLabel.AutoSize = false;
             messageLabel.TextAlign = ContentAlignment.MiddleCenter;
-            messageLabel.Location = new Point(0, 100);
+            messageLabel.Location = new Point(0, 30);
             messageLabel.Size = new Size(ClientSize.Width, 30);
+            scoreLabel.AutoSize = false;
+            scoreLabel.Size = new Size(190, 30);
+            scoreLabel.Location = new Point(335, 70);
+            scoreLabel.TextAlign = ContentAlignment.MiddleRight;
 
             AddButtonHoverEffect(backButton);
             AddButtonHoverEffect(shuffleButton);

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             menuPanel = new Panel();
             titleLabel = new Label();
             endlessButton = new Button();
@@ -240,11 +241,11 @@
             scoreLabel.BackColor = Color.Transparent;
             scoreLabel.Font = new Font("Segoe UI", 13.2000008F, FontStyle.Bold, GraphicsUnit.Point, 0);
             scoreLabel.ForeColor = SystemColors.ButtonHighlight;
-            scoreLabel.Location = new Point(340, 55);
+            scoreLabel.Location = new Point(332, 55);
             scoreLabel.Name = "scoreLabel";
-            scoreLabel.Size = new Size(190, 30);
+            scoreLabel.Size = new Size(188, 30);
             scoreLabel.TabIndex = 3;
-            scoreLabel.Text = "Scor: 0";
+            scoreLabel.Text = "Scor: 0000";
             // 
             // levelCompletePanel
             // 
@@ -347,11 +348,11 @@
             timerLabel.BackColor = Color.Transparent;
             timerLabel.Font = new Font("Segoe UI", 13.2000008F, FontStyle.Bold, GraphicsUnit.Point, 0);
             timerLabel.ForeColor = SystemColors.ButtonHighlight;
-            timerLabel.Location = new Point(25, 55);
+            timerLabel.Location = new Point(12, 55);
             timerLabel.Name = "timerLabel";
             timerLabel.Size = new Size(150, 30);
             timerLabel.TabIndex = 5;
-            timerLabel.Text = "Time: 0";
+            timerLabel.Text = "Timp: 0";
             timerLabel.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // messageLabel
@@ -381,6 +382,7 @@
             Controls.Add(gamePanel);
             Controls.Add(menuPanel);
             FormBorderStyle = FormBorderStyle.FixedToolWindow;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             MainMenuStrip = menuStrip1;
             Name = "Form1";
             Text = "Wordscapes";
